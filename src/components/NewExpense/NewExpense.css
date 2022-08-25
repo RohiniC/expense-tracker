@@ -1,0 +1,17 @@
+.New_Expense_container {
+    margin: 0 auto;
+    padding: 30px;
+    border: 3px solid #000000;
+    border-radius: 20px;
+    margin: 20px
+}
+.New_Expense_container form{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    width: 200px;
+    margin: 0 auto;
+}
+.New_Expense_container form input, .New_Expense_container form button {
+    margin: 20px;
+}

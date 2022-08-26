@@ -4,6 +4,12 @@ import './Expense.css';
 import ExpenseItem from './Expenseitem';
 
 function Expenses(props) {
+    // let expense = <div className="Expense_container"><p>No expenses found</p></div>;
+    // if(props.expenses.length > 0) {
+    //     expense = (props.expenses.map((expense) => {
+    //         return <ExpenseItem key={expense.id} name={expense.name} date={expense.date} amount={expense.amount}></ExpenseItem>
+    //     })) 
+    // }
 
     return (<>
         {/* { 
@@ -12,9 +18,12 @@ function Expenses(props) {
         } */}
 
         {
-            props.expenses.map((expense) => {
+            (props.expenses.length === 0 || props.expenses.length < 2) && <p>Please add expenses</p>
+        }
+        {
+            props.expenses.length > 0 ? (props.expenses.map((expense) => {
                 return <ExpenseItem key={expense.id} name={expense.name} date={expense.date} amount={expense.amount}></ExpenseItem>
-            })
+            })) : <div className="Expense_container"><p>No expenses found</p></div>
         }
     </>);
 }

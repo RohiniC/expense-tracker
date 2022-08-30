@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './Expense.css';
 
@@ -11,13 +11,14 @@ import ExpenseList from './ExpenseList';
 //     this.state = {
 //       expenses: []
 //     };
-//     this.clickHandler = this.clickHandler.bind(this);
+//     // this.clickHandler = this.clickHandler.bind(this);
 //   }
 //   addExpenseHandler = (expense) => {
 //     // setExpenses((prevexpenses) => { return [...[expense], ...prevexpenses] });
 //     // this.setState((prevexpenses) => { return [...[expense], ...prevexpenses] });
 //   }
 //   clickHandler() {
+//     console.log(this)
 //     this.setState({
 //       expenses: [...[{
 //             id: new Date().getTime(),
@@ -40,10 +41,12 @@ import ExpenseList from './ExpenseList';
 //       <NewExpense onNewExpenseAdded={this.addExpenseHandler} />
 //       {/* <NewExpense /> */}
 //       <ExpenseList expenses={this.state.expenses} />
-//       <button onClick={this.clickHandler}>Add Groceries</button>
+//       <button onClick={this.clickHandler.bind(this)}>Add Groceries</button>
 //     </div>);
 //   }
 // }
+
+
 
 function Expenses() {
   const expensesData = [];
@@ -53,6 +56,10 @@ function Expenses() {
     setExpenses((prevexpenses) => { return [...[expense], ...prevexpenses] });
 
   }
+
+  useEffect(()=>{
+    console.log('hi')
+  });
   const clickHandler = () => {
     setExpenses((prevexpenses) => {
       return [...[{

@@ -9,13 +9,13 @@ function App() {
   const loginHandler = (islogin) => {
     setLoggedIn(islogin);
   }
-
+ 
   return (
     <div className="App">
       <header className="App-header">
         <h3>Expense tracker</h3>
       </header>
-      {isLoggedin ? <Expenses /> : <Login isLoggedin={loginHandler}/>
+      {isLoggedin ? <Expenses logout={loginHandler}/> : <Login isLoggedin={loginHandler}/>
       }
     </div>
   );

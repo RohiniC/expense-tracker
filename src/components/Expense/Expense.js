@@ -48,18 +48,50 @@ import ExpenseList from './ExpenseList';
 
 
 
-function Expenses() {
+
+
+function Expenses(props) {
   const expensesData = [];
   const [expenses, setExpenses] = useState(expensesData);
 
+
   const addExpenseHandler = (expense) => {
-    setExpenses((prevexpenses) => { return [...[expense], ...prevexpenses] });
+    fetch('https://6310299436e6a2a04ee72085.mockapi.io/api/expenses', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(expense)
+    }).then(res => res.json())
+      .then(res => console.log(res));
+
+
+    // setExpenses((prevexpenses) => { return [...[expense], ...prevexpenses] });
 
   }
 
-  useEffect(()=>{
-    console.log('hi')
-  });
+  useEffect(() => {
+    document.title = "Expenses page"
+    const intervalId = setInterval(() => {
+      fetch('https://6310299436e6a2a04ee72085.mockapi.io/api/expenses').then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        return false;
+      }).then((response) => {
+        if (response) {
+          setExpenses(response);
+        }
+      })
+    }, 1000);
+    return () => {
+      console.log('unmounted expenses')
+      clearInterval(intervalId);
+    }
+  }, []);
+
+
   const clickHandler = () => {
     setExpenses((prevexpenses) => {
       return [...[{
@@ -71,10 +103,15 @@ function Expenses() {
     });
 
   }
+  const logout = () => {
+    props.logout(false)
+  }
   return (<div>
+    <button onClick={logout}>Log out</button>
     <NewExpense onNewExpenseAdded={addExpenseHandler} />
     {/* <NewExpense /> */}
     <ExpenseList expenses={expenses} />
+
     <button onClick={clickHandler}>Add Groceries</button>
   </div>);
 }

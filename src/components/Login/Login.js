@@ -1,25 +1,22 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom'
 
-class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            isValid: ""
-        };
-        this.emailHandler= this.emailHandler.bind(this);
-    }
+function Login(props) {
+    let navigateto = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isValid, setValid] = useState(false);
 
-    login(e) {
+    const login = (e) => {
         e.preventDefault();
         localStorage.setItem('login', true)
-        this.props.isLoggedin(true);
+        props.isLoggedin(true);
+        navigateto('/expenses');
     }
 
-    componentDidMount() {
-        console.log('expense component mounted')
+    useEffect(() => {
+        props.isLoggedin(false);
         fetch('https://6310299436e6a2a04ee72085.mockapi.io/api/logi').then((response) => {
 
             if (response.ok) {
@@ -27,116 +24,126 @@ class Login extends Component {
             }
             return false;
         }).then((response) => {
-            if (response) {
-                this.props.isLoggedin(true);
+            if(response) {
+                props.isLoggedin(true);
+                navigateto('expenses');
             }
         })
-    }
+    }, [props, navigateto]);
 
-    componentDidUpdate(previousProps, previousState) {
-        console.log('updated')
-        if (previousState.isValid !== true) {
-            if ((this.state.email.includes('@') && this.state.password.length > 4)) {
-                this.setState((previouseState) => {
-                    return { ...previouseState, isValid: true }
-                })
-            }
+    useEffect(() => {
+        console.log('mounted')
+
+        if ((email.includes('@') && password.length > 4)) {
+            setValid(true);
         }
 
+    }, [email, password]);
 
+    useEffect(() => {
+        return () => console.log('login component unmounted');
+    }, []);
+
+
+    const emailHandler = (e) => {
+        setEmail(e.target.value)
+    }
+    const passwordHandler = (e) => {
+        setPassword(e.target.value)
     }
 
-    componentWillUnmount() {
-       console.log('login component unmounted');
-    }
 
+    return (
 
-    emailHandler(e) {
-        this.setState((previouseState) => {
-            return { ...previouseState, email: e.target.value }
-        })
-    }
-    passwordHandler(e) {
-        this.setState((previouseState) => {
-            return { ...previouseState, password: e.target.value }
-        })
-    }
+        <form onSubmit={login}>
+            <input type="email" placeholder="Enter email" onChange={emailHandler} value={email} />
+            <input type="password" placeholder="Enter password" onChange={passwordHandler} value={password} />
+            {isValid ? <button type="submit" >Submit</button> : <button type="submit" disabled>Submit</button>}
 
-    render() {
-        console.log('component rendered')
-        return (
+        </form>
 
-            <form onSubmit={this.login.bind(this)}>
-                <input type="email" placeholder="Enter email" onChange={this.emailHandler} value={this.state.email} />
-                <input type="password" placeholder="Enter password" onChange={this.passwordHandler.bind(this)} value={this.state.password} />
-                {this.state.isValid ? <button type="submit" >Submit</button> : <button type="submit" disabled>Submit</button>}
-
-            </form>
-
-        );
-    }
+    );
 }
 
+export default Login;
 
-// function Login(props) {
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [isValid, setValid] = useState(false);
-
-//     const login = (e) => {
-//         e.preventDefault();
-//         localStorage.setItem('login', true)
-//         props.isLoggedin(true);
+// class Login extends Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             email: "",
+//             password: "",
+//             isValid: ""
+//         };
+//         this.emailHandler= this.emailHandler.bind(this);
 //     }
 
-//     useEffect(() => {
-//         fetch('https://6310299436e6a2a04ee72085.mockapi.io/api/logi').then((response) => {
+//     login(e) {
+//         e.preventDefault();
+//         localStorage.setItem('login', true)
+//         this.props.isLoggedin(true);
+//     }
+
+//     componentDidMount() {
+//         console.log('expense component mounted')
+//         fetch('https://6310299436e6a2a04ee72085.mockapi.io/api/login').then((response) => {
 
 //             if (response.ok) {
 //                 return response.json()
 //             }
 //             return false;
 //         }).then((response) => {
-//             if(response) {
-//                 props.isLoggedin(true);
+//             if (response) {
+//                 this.props.isLoggedin(true);
 //             }
 //         })
-//     }, [props]);
+//     }
 
-//     useEffect(() => {
-//         console.log('mounted')
-
-//         if ((email.includes('@') && password.length > 4)) {
-//             setValid(true);
+//     componentDidUpdate(previousProps, previousState) {
+//         console.log('updated')
+//         if (previousState.isValid !== true) {
+//             if ((this.state.email.includes('@') && this.state.password.length > 4)) {
+//                 this.setState((previouseState) => {
+//                     return { ...previouseState, isValid: true }
+//                 })
+//             }
 //         }
 
-//     }, [email, password]);
 
-//     useEffect(() => {
-//         return () => console.log('login component unmounted');
-//     }, []);
-
-
-//     const emailHandler = (e) => {
-//         setEmail(e.target.value)
 //     }
-//     const passwordHandler = (e) => {
-//         setPassword(e.target.value)
+
+//     componentWillUnmount() {
+//        console.log('login component unmounted');
 //     }
 
 
-//     return (
+//     emailHandler(e) {
+//         this.setState((previouseState) => {
+//             return { ...previouseState, email: e.target.value }
+//         })
+//     }
+//     passwordHandler(e) {
+//         this.setState((previouseState) => {
+//             return { ...previouseState, password: e.target.value }
+//         })
+//     }
 
-//         <form onSubmit={login}>
-//             <input type="email" placeholder="Enter email" onChange={emailHandler} value={email} />
-//             <input type="password" placeholder="Enter password" onChange={passwordHandler} value={password} />
-//             {isValid ? <button type="submit" >Submit</button> : <button type="submit" disabled>Submit</button>}
+//     render() {
+//         console.log('component rendered')
+//         return (
 
-//         </form>
+//             <form onSubmit={this.login.bind(this)}>
+//                 <input type="email" placeholder="Enter email" onChange={this.emailHandler} value={this.state.email} />
+//                 <input type="password" placeholder="Enter password" onChange={this.passwordHandler.bind(this)} value={this.state.password} />
+//                 {this.state.isValid ? <button type="submit" >Submit</button> : <button type="submit" disabled>Submit</button>}
 
-//     );
+//             </form>
+
+//         );
+//     }
 // }
 
-export default Login;
+
+
 
 

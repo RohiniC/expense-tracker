@@ -2,7 +2,8 @@ import React from 'react';
 
 import './Expense.css';
 
-import NewExpense from '../NewExpense/NewExpense';
+import { Outlet } from 'react-router-dom';
+
 import ExpenseList from './ExpenseList';
 
 class Expenses extends React.Component {
@@ -16,11 +17,7 @@ class Expenses extends React.Component {
     this.clickHandler = this.clickHandler.bind(this);
 
   }
-  addExpenseHandler(expense) {
-    console.log(this);
-    // setExpenses((prevexpenses) => { return [...[expense], ...prevexpenses] });
-    // this.setState((prevexpenses) => { return [...[expense], ...prevexpenses] });
-  }
+
   clickHandler() {
     console.log(this)
     this.setState({
@@ -40,9 +37,7 @@ class Expenses extends React.Component {
     //   }], ...prevexpenses]
     // });
   }
-  logout = () => {
-    this.props.logout(false)
-  }
+
   componentDidMount() {
 
     this.intervalId = setInterval(() => {
@@ -69,10 +64,9 @@ class Expenses extends React.Component {
 
   render() {
     return (<div>
-      <button onClick={this.logout}>Log out</button>
-      <NewExpense onNewExpenseAdded={this.addExpenseHandler} />
-      {/* <NewExpense /> */}
-      <button>Refresh list</button>
+     
+      {/* <NewExpense onNewExpenseAdded={this.addExpenseHandler} /> */}
+      <Outlet />
       <ExpenseList expenses={this.state.expenses} />
 
       <button onClick={this.clickHandler}>Add Groceries</button>

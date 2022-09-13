@@ -15,3 +15,6 @@
 .New_Expense_container form input, .New_Expense_container form button {
     margin: 20px;
 }
+.item {
+    min-width: 250px;
+}

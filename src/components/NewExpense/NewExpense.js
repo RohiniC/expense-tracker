@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './NewExpense.css';
 import { useNavigate } from 'react-router-dom'
+import {AdminContext} from '../../user-context';
 
 function NewExpense(props) {
     const navigate = useNavigate();
+    const isAdmin = useContext(AdminContext);
+    console.log(isAdmin.admin)
     const [newexpense, setNewExpense] = useState({
         name: '',
         date: '',
@@ -38,7 +41,7 @@ function NewExpense(props) {
             },
             body: JSON.stringify(addedexpense)
         }).then(res => res.json())
-            .then(res => navigate('/expenses'));
+            .then(res => navigate('/expenses/new'));
         setNewExpense({
             name: '',
             date: '',
@@ -49,12 +52,14 @@ function NewExpense(props) {
 
     return (<div className="New_Expense_container">
         <h3>Add New Expense</h3>
+        {isAdmin.admin &&
         <form onSubmit={subjectHandler}>
             <input type="text" placeholder="Enter date" value={newexpense.date} onChange={dateHandler} />
             <input type="text" placeholder="Enter name" value={newexpense.name} onChange={nameHandler} />
             <input type="text" placeholder="Enter amount" value={newexpense.amount} onChange={amountHandler} />
             <button type="submit">Submit</button>
         </form>
+}
 
     </div>);
 }

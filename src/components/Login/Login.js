@@ -11,12 +11,12 @@ function Login(props) {
     const login = (e) => {
         e.preventDefault();
         localStorage.setItem('login', true)
-        props.isLoggedin(true);
+        props.isLogged({"admin": true, isLoggedin: true});
         navigateto('/expenses');
     }
 
     useEffect(() => {
-        props.isLoggedin(false);
+        props.isLogged(false);
         fetch('https://6310299436e6a2a04ee72085.mockapi.io/api/logi').then((response) => {
 
             if (response.ok) {
@@ -25,7 +25,7 @@ function Login(props) {
             return false;
         }).then((response) => {
             if(response) {
-                props.isLoggedin(true);
+                props.isLogged(true);
                 navigateto('expenses');
             }
         })
@@ -136,7 +136,6 @@ export default Login;
 //                 <input type="email" placeholder="Enter email" onChange={this.emailHandler} value={this.state.email} />
 //                 <input type="password" placeholder="Enter password" onChange={this.passwordHandler.bind(this)} value={this.state.password} />
 //                 {this.state.isValid ? <button type="submit" >Submit</button> : <button type="submit" disabled>Submit</button>}
-
 //             </form>
 
 //         );

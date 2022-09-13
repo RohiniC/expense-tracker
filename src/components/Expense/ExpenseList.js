@@ -22,7 +22,7 @@ function Expenses(props) {
         }
         {
             props.expenses.length > 0 ? (props.expenses.map((expense) => {
-                return <ExpenseItem key={expense.id} name={expense.name} date={expense.date} amount={expense.amount}></ExpenseItem>
+                return <ExpenseItem key={expense.id} id={expense.id} name={expense.name} date={expense.date} amount={expense.amount}></ExpenseItem>
             })) : <div className="Expense_container"><p>No expenses found</p></div>
         }
     </>);

@@ -4,6 +4,7 @@ import './Expense.css';
 import ExpenseItem from './Expenseitem';
 
 function Expenses(props) {
+    
     // let expense = <div className="Expense_container"><p>No expenses found</p></div>;
     // if(props.expenses.length > 0) {
     //     expense = (props.expenses.map((expense) => {

@@ -2,7 +2,7 @@ import classes from './Counter.module.css';
 
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from '../../features/counter/counter'
+import { decrement, increment, incrementByAmount } from '../../features/counter/counter'
 
 export default function Counter() {
   const count = useSelector((state) => state.counter.value)
@@ -24,6 +24,13 @@ export default function Counter() {
         >
           Decrement
         </button>
+        <button
+          aria-label="Increment by 10"
+          onClick={() => dispatch(incrementByAmount(10))}
+        >
+          Increment by 10
+        </button>
+        
       </div>
     </div>
   )
